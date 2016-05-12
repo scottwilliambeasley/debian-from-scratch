@@ -1,8 +1,8 @@
 # debian-from-scratch
-An instruction manual for teaching Linux From Scratch users how to make a custom Debian-powered distro
 
+An instruction manual for teaching Linux From Scratch users how to make a custom Debian-powered distro.
 
-Why Debian from Scratch?
+##Why Debian from Scratch?
 
 The original Linux from Scratch manual is purposefully vague as to what technique one should use to manage software dependencies. The suggestions that it gives, while no doubt being interesting exercises in package management, are not necessarily heavy-duty answers to a system administrator who intends on managing his time efficiently. 
 
@@ -13,3 +13,5 @@ The answer to this problem, is obviously to use a package manager. There are man
 I chose to make this manual because I have seen woefully old guides on the internet teaching others how to get dpkg and apt running on their own custom linux, and people asking on various forums on how to install dpkg and apt, but not getting the help that they need. These guides are outdated and no longer contain up-to-date information, which I intend to fix here in this manual.
 
 This project intends to be a community resource to help those interested in creating their own custom system from the ground up, while fully taking advantage of the Debian suite of package management, dpkg and apt, in order to solve the problems of package dependency installation and management.
+
+
