@@ -26,3 +26,10 @@ After completing the preliminary preparartions, one then consults this manual an
 
 Like the original LFS manual, when dealing with packages to be compiled, each section already assumes that you have extracted the source code and have changed your main directory into the main folder of the extracted content. However, when dealing with .deb files no such extraction is needed. One only needs to follow the instructions while having the .deb file in your current directory.
 
+## Overview of our Method for Building a Custom Debian System
+
+In the original Linux From Scratch book, we created a cross-toolchain, using the toolchain native to our system. We then used this cross-toolchain to create a native toolchain, which ended up being the temporary '/tools' system environment. This was Chapter 5's goal. We then used this temporary system to build our final system, which was Chapter 6's goal.
+
+In Debian From Scratch, we branch off from the end of Chapter 5. Instead of using the toolchain and other utilies installed in `/tools` to compile every single part of the final system, we instead extend this toolset to include the minimum required dependencies for installation of Debian's package manager, dpkg.
+
+We then compile and install dpkg as the first part of our final system, and use dpkg along with some clever dependency hacking to satisfy all remaining dependencies needed to install apt. This allows us to rely on apt for the overwhelming majority of tasks involving the installation of software onto our new system, and to allow us to avoid the exercise in tedium that is manual dependency management.
