@@ -34,6 +34,20 @@ In Debian From Scratch, we branch off from the end of Chapter 5. Instead of usin
 
 We then compile and install dpkg as the first part of our final system, and use dpkg along with some clever dependency hacking to satisfy all remaining dependencies needed to install apt. This allows us to rely on apt for the overwhelming majority of tasks involving the installation of software onto our new system, and to allow us to avoid the exercise in tedium that is manual dependency management.
 
+### Entering our chroot environment
+
+We must now, as the `root` user on our host system, enter our base environment by changing our root directory into the final system's root directory, and use the temporary environment we've previously constructed to build our final system. Use the following command after you have become `root` on your host:
+
+```
+chroot "$LFS" /tools/bin/env -i \
+HOME=/root                  \
+TERM="$TERM"                \
+PS1='\[\033[01m\][ \[\033[01;34m\]\u@\h\[\033[00m\]\[\033[01m\]]\[\033[01;32m\]\w\[\033[00m\]\n\[\033[01;34m\]$\[\033[00m\]> '\
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/tools/sbin \
+/tools/bin/bash --login +h
+```
+
+
 ### Installing dpkg
 
 Before we can install `dpkg`, we must first complete the dependencies needed for it to compile using the toolchain located in our `/tools` directory. The following figure shows the dependencies needed for `dpkg` to compile properly:  
