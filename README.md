@@ -8,7 +8,11 @@ The original Linux from Scratch manual is purposefully vague as to what techniqu
 
 The disadvantage of compiling everything to create a fully-fledged system is time. After one builds an LFS system for the first time, he/she is apt to realize that managing dependencies can be an arduous task, to say the least. Going through the insufferable exercise of hunting down dozens to possibly hundreds packages, mapping dependencies, configuring and installing these dependencies in the correct order, just to install a single piece of software, is not a viable alternative to a system administrator who values his time.
 
-The answer to this problem, is obviously to use a package manager. There are many available package managers, the most popular of which are the debian-based package management suites (dpkg and apt), and the Red Hat based package management suites (rpm and yum). 
+The answer to this problem, is obviously to use a package manager. There are many available package managers, the most popular of which are the Debian-based package management suites (dpkg and apt), and the Red Hat based package management suites (rpm and yum). 
+
+This manual will teach you how to build your system utilizing the Debian set of package management tools by utilizing the temporary system environment created in Linux From Scratch.
+
+## Purpose for this project
 
 I chose to make this manual because I have seen woefully old guides on the internet teaching others how to get dpkg and apt running on their own custom linux, and people asking on various forums on how to install dpkg and apt, but not getting the help that they need. These guides are outdated and no longer contain up-to-date information, which I intend to fix here in this manual.
 
