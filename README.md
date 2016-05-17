@@ -33,3 +33,12 @@ In the original Linux From Scratch book, we created a cross-toolchain, using the
 In Debian From Scratch, we branch off from the end of Chapter 5. Instead of using the toolchain and other utilies installed in `/tools` to compile every single part of the final system, we instead extend this toolset to include the minimum required dependencies for installation of Debian's package manager, dpkg.
 
 We then compile and install dpkg as the first part of our final system, and use dpkg along with some clever dependency hacking to satisfy all remaining dependencies needed to install apt. This allows us to rely on apt for the overwhelming majority of tasks involving the installation of software onto our new system, and to allow us to avoid the exercise in tedium that is manual dependency management.
+
+### Installing dpkg
+
+Before we can install `dpkg`, we must first complete the dependencies needed for it to compile using the toolchain located in our `/tools` directory. The following figure shows the dependencies needed for `dpkg` to compile properly:  
+
+<center>![Figure 1.0 The dpkg dependency tree](https://cdn.rawgit.com/scottwilliambeasley/debian-from-scratch/master/images/dpkg.svg)</center>
+#####Figure 1.0 - The dpkg dependency tree
+
+All of of these dependencies, only `gettext` has already been installed on our system. Thus we must compile all of these one by one until such a time comes where we have satisfied all of `dpkg`'s dependencies.
