@@ -57,14 +57,14 @@ Before we can install `dpkg`, we must first complete the dependencies needed for
 
 All of of these dependencies, only `gettext` has already been installed on our system. Thus we must compile all of these one by one until such a time comes where we have satisfied all of `dpkg`'s dependencies.
 
-**autoconf**
+**autoconf** [![source](http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz)]
 ```
 ./configure --prefix=/tools
 make
 make install
 ```
 
-**automake**
+**automake** [![source](http://ftp.gnu.org/gnu/automake/automake-1.15.tar.xz)]
 ```
 sed -i 's:/\\\${:/\\\$\\{:' bin/automake.in
 ./configure --prefix=/tools
@@ -72,28 +72,28 @@ make
 make install
 ```
 
-**libtool**
+**libtool** [![source](http://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.xz)]
 ```
 ./configure --prefix=/tools
 make
 make install
 ```
 
-**bison**
+**bison** [![source](http://ftp.gnu.org/gnu/bison/bison-3.0.4.tar.xz)]
 ```
 ./configure --prefix=/tools
 make
 make install
 ```
 
-**flex**
+**flex** [![source](http://prdownloads.sourceforge.net/flex/flex-2.6.0.tar.xz)]
 ```
 ./configure --prefix=/tools
 make
 make install
 ```
 
-**dpkg**
+**dpkg** [![source](http.debian.net/debian/pool/main/d/dpkg/dpkg_1.17.26.tar.xz)] 
 ```
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --build=x86_64-unknown-linux-gnu
 make
