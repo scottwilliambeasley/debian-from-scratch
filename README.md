@@ -42,7 +42,7 @@ We must now, as the `root` user on our host system, enter our base environment b
 chroot "$LFS" /tools/bin/env -i \
 HOME=/root                  \
 TERM="$TERM"                \
-PS1='\[\033[01m\][ \[\033[01;34m\]\u@\h\[\033[00m\]\[\033[01m\]]\[\033[01;32m\]\w\[\033[00m\]\n\[\033[01;34m\]$\[\033[00m\]> '\
+PS1='\[\033[01m\][ \[\033[01;34m\]\u@\h\[\033[00m\]\[\033[01m\]]\[\033[01;32m\]\w\[\033[00m\]\n\[\033[01;34m\]$\[\033[00m\]> ' \
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/tools/sbin \
 /tools/bin/bash --login +h
 ```
