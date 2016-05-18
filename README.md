@@ -56,3 +56,48 @@ Before we can install `dpkg`, we must first complete the dependencies needed for
 #####Figure 1.0 - The dpkg dependency tree
 
 All of of these dependencies, only `gettext` has already been installed on our system. Thus we must compile all of these one by one until such a time comes where we have satisfied all of `dpkg`'s dependencies.
+
+**autoconf**
+```
+./configure --prefix=/tools
+make
+make install
+```
+
+**automake**
+```
+sed -i 's:/\\\${:/\\\$\\{:' bin/automake.in
+./configure --prefix=/tools
+make
+make install
+```
+
+**libtool**
+```
+./configure --prefix=/tools
+make
+make install
+```
+
+**bison**
+```
+./configure --prefix=/tools
+make
+make install
+```
+
+**flex**
+```
+./configure --prefix=/tools
+make
+make install
+```
+
+**dpkg**
+```
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --build=x86_64-unknown-linux-gnu
+make
+make install
+```
+
+Notice how all of the prerequisite software needed to compile `dpkg` is still installed in `/tools`, while the `dpkg` binary itself is installed in the `/usr` directory (specifically `/usr/bin`), its configuration files being placed in `/etc`, and its local state directory (which holds the dpkg database and other files) will be located within `/var`(specifically `/var/lib/dpkg`).
