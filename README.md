@@ -68,6 +68,10 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/tools/sbin \
 /tools/bin/bash --login +h
 ```
 
+#####Temporarily linking /bin/sh to /tools/bin/bash
+`ln /tools/bin/bash sh`
+
+
 ##Creating a standard Linux file structure
 ```
 mkdir -pv /{bin,boot,etc/{opt,sysconfig},home,lib/firmware,mnt,opt}
