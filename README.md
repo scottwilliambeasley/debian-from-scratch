@@ -52,8 +52,8 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/tools/sbin \
 
 Before we can install `dpkg`, we must first complete the dependencies needed for it to compile using the toolchain located in our `/tools` directory. The following figure shows the dependencies needed for `dpkg` to compile properly:  
 
-<center>![Figure 1.0 The dpkg dependency tree](https://cdn.rawgit.com/scottwilliambeasley/debian-from-scratch/master/images/dpkg.svg)</center>
-#####Figure 1.0 - The dpkg dependency tree
+<center>![](https://cdn.rawgit.com/scottwilliambeasley/debian-from-scratch/master/images/dpkg.svg)</center>
+#####Figure 1 - The dpkg dependency tree
 
 All of of these dependencies, only `gettext` has already been installed on our system. Thus we must compile all of these one by one until such a time comes where we have satisfied all of `dpkg`'s dependencies.
 
@@ -101,3 +101,12 @@ make install
 ```
 
 Notice how all of the prerequisite software needed to compile `dpkg` is still installed in `/tools`, while the `dpkg` binary itself is installed in the `/usr` directory (specifically `/usr/bin`), its configuration files being placed in `/etc`, and its local state directory (which holds the dpkg database and other files) will be located within `/var`(specifically `/var/lib/dpkg`).
+
+###Installing apt
+
+Before we can install `apt`, and use this to automatically install the most of the rest of our system software, we have to install its immediate dependencies on our target system first.
+
+![](https://cdn.rawgit.com/scottwilliambeasley/debian-from-scratch/master/images/apt-dependencies.svg)
+#####Figure 2 - The apt dependency tree, one level deep
+
+Each of these immediate dependencies has their own set of dependencies to fulfill. We shall start by completing the dependency tree for `debian-archive-keyring`. Unlike the compilation process needed to install `dpkg`, the process we now use to install software is by installing .`deb` files using `dpkg`. 
