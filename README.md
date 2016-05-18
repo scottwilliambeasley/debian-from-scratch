@@ -151,6 +151,12 @@ make install
 
 Notice how all of the prerequisite software needed to compile `dpkg` is still installed in `/tools`, while the `dpkg` binary itself is installed in the `/usr` directory (specifically `/usr/bin`), its configuration files being placed in `/etc`, and its local state directory (which holds the dpkg database and other files) will be located within `/var`(specifically `/var/lib/dpkg`).
 
+##### Creating dpkg's database
+We need to create `dpkg`'s database, which is merely a text file located in `/var/lib/dpkg/status`. `dpkg` stores all of its package information in this file, including package version, architecture, dependencies, etc. It does not yet currently exist. Without this file, dpkg will not function correctly, so it is important that we create this before we move forward.
+
+`touch /var/lib/dpkg/status`
+
+
 ###Installing apt
 
 Before we can install `apt`, and use this to automatically install the most of the rest of our system software, we have to install its immediate dependencies on our target system first.
@@ -159,3 +165,46 @@ Before we can install `apt`, and use this to automatically install the most of t
 #####Figure 2 - The apt dependency tree, one level deep
 
 Each of these immediate dependencies has their own set of dependencies to fulfill. We shall start by completing the dependency tree for `debian-archive-keyring`. Unlike the compilation process needed to install `dpkg`, the process we now use to install software is by installing .`deb` files using `dpkg`. 
+
+####Installing debian-archive-keyring
+
+So we shall start fulfilling `dpkg`'s dependencies by first by installing `debian-archive-keyring`. However, there is a problem here - we have a circular dependency as illustrated below.
+
+![](https://cdn.rawgit.com/scottwilliambeasley/debian-from-scratch/master/images/debian-archive-keyring-deps.svg)
+##### Figure 3 - The debian-archive-keyring dependency tree, circular dependency in red
+
+`libgcc1` depends on `multiarch-support`, which depends on `libc6`, which depends on `libgcc1`. This is a major problem, as because none of these packages will fully install without having the others.
+
+In order to solve this seemingly impossible problem, we will need to bend the rules a little bit.
+
+First, we need to install `gcc-4.9-base`:
+
+`dpkg -i (location of gcc-4.9-base)`
+
+Then, we will need to install one package first in a partial way
+
+`dpkg - i (LOCATION_OF_libgcc1)`
+
+and tweak the database to convince it that it -was- fully installed:
+
+`sed -ir 's/not-installed/installed/' /var/lib/dpkg/status`
+
+Furthermore, since the package's database entry wasn't updated with the description,maintainer, and version info, we need to append these to the package's database entries. This will prevent `dpkg` from moaning and groaning:
+
+`sed -ri 's/(Package: libgcc1)/\1\nDescription: test\nMaintainer: test\nVersion: 2.19/' /var/lib/dpkg/status`
+
+Now install the other two packages in order:
+
+`dpkg -i (location_of_multiarch)`
+`dpkg -i (location_of_libc6)`
+
+--NEED TO REVIEW THe ABOVE PROCESS--
+
+--ADD the ff:--
+
+1. ADD `debs` folder into process here, so we can `dpkg -i *, dpkg -i dpkg, dpkg -i again`.
+2. then create configuration files such at /etc/resolv.conf, /etc/hosts/, /etc/apt/sources.list`
+3. update the package manager
+
+
+
