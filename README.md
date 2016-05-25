@@ -198,13 +198,146 @@ Now install the other two packages in order:
 `dpkg -i (location_of_multiarch)`
 `dpkg -i (location_of_libc6)`
 
---NEED TO REVIEW THe ABOVE PROCESS--
+### Creating configuration files
 
---ADD the ff:--
+Before we proceed with updating `apt's` cache, let's create some much-needed configuration files in order to do so, as well as change how `bash` handles special keyboard presses. 
 
-1. ADD `debs` folder into process here, so we can `dpkg -i *, dpkg -i dpkg, dpkg -i again`.
-2. then create configuration files such at /etc/resolv.conf, /etc/hosts/, /etc/apt/sources.list`
-3. update the package manager
+####/etc/resolv.conf
+
+`/etc/resolv.conf` is a file needed in order for your system to have DNS resolution. Without this file, no resolution typically happens, which makes updating `apt`'s cache of installable packages via `/etc/apt/sources.list` difficult.
+
+```
+cat > /etc/resolv.conf << "EOF"
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+"EOF"
+```
+
+####/etc/apt/sources.list
+
+sources.list is a file which `apt` uses to contact the repositories that hold your software. You want to use the repositories from one and only one distribution as much as possible, otherwise you risk breaking your Debian's clear chain of dependencies and creating an insane mess of your system. 
+
+```
+cat > /etc/apt/sources.list << "EOF"
+# Debian Jessie main repos
+deb http://httpredir.debian.org/debian/ jessie main  
+deb-src http://httpredir.debian.org/debian/ jessie main  
+
+#Debian Jessie security repos
+deb http://security.debian.org/ jessie/updates main  
+deb-src http://security.debian.org/ jessie/updates main  
+
+# non-free plugins
+deb http://http.debian.net/debian/ jessie non-free contrib main  
+
+# jessie-updates, previously known as 'volatile'
+deb http://httpredir.debian.org/debian/ jessie-updates main  
+deb-src http://httpredir.debian.org/debian/ jessie-updates main> EOF
+EOF
+```
+
+####/etc/hosts
+
+`/etc/hosts` is a file used to contain mapping of IP addresses to hostnames. This file is usually checked before DNS queries, at the very least, this should contain your `ipv4` and `ipv6` loopback addresses.
+
+```
+cat >/etc/hosts << "EOF"
+127.0.0.1       localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+EOF
+```
+
+####/etc/hostname
+
+`/etc/hostname` is used to contain your host's DNS name. Edit this if you like.
+
+```
+cat >/etc/hostname << "EOF"
+debianfromscratch
+EOF
+```
+
+####/etc/inputrc
+
+`/etc/inputrc` is the global configuration file for the used by the `libreadline6` library, which most shells use in order to understand how to handle many special keyboard situations, such as what behavior should be default when hitting the HOME and END keys. Without this file, many special keys and two-key stroke combos such as ctrl+left will fail to work. 
+
+Since this file is not created by default when installing the `libreadline6` library, we must create it ourselves.
+
+```
+cat > /etc/inputrc << "EOF"
+# /etc/inputrc - global inputrc for libreadline
+# See readline(3readline) and `info rluserman' for more information.
+
+# Be 8 bit clean.
+set input-meta on
+set output-meta on
+
+# To allow the use of 8bit-characters like the german umlauts, uncomment
+# the line below. However this makes the meta key not work as a meta key,
+# which is annoying to those which don't need to type in 8-bit characters.
+
+# set convert-meta off
+
+# try to enable the application keypad when it is called.  Some systems
+# need this to enable the arrow keys.
+# set enable-keypad on
+
+# see /usr/share/doc/bash/inputrc.arrows for other codes of arrow keys
+
+# do not bell on tab-completion
+# set bell-style none
+# set bell-style visible
+
+# some defaults / modifications for the emacs mode
+$if mode=emacs
+
+# allow the use of the Home/End keys
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+
+# allow the use of the Delete/Insert keys
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# mappings for "page up" and "page down" to step to the beginning/end
+# of the history
+# "\e[5~": beginning-of-history
+# "\e[6~": end-of-history
+
+# alternate mappings for "page up" and "page down" to search the history
+# "\e[5~": history-search-backward
+# "\e[6~": history-search-forward
+
+# mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+"\e[5C": forward-word
+"\e[5D": backward-word
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+
+$if term=rxvt
+"\e[7~": beginning-of-line
+"\e[8~": end-of-line
+"\eOc": forward-word
+"\eOd": backward-word
+$endif
+
+# for non RH/Debian xterm, can't hurt for RH/Debian xterm
+# "\eOH": beginning-of-line
+# "\eOF": end-of-line
+
+# for freebsd console
+# "\e[H": beginning-of-line
+# "\e[F": end-of-line
+
+$endif
+EOF
+```
+
+
 
 
 
