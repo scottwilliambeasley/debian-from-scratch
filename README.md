@@ -337,13 +337,10 @@ $endif
 EOF
 ```
 
-###Updating `apt's` package lists
+###Updating apt's package lists
 
-We are now ready to update our list of packages and take full advantage of `apt`. To do this, we update our local keyring with the 
+We are now ready to update our list of packages and take full advantage of `apt`. To do this, we update our local keyring of valid Debian developer gnu pgp signatures using `apt-key update`, and then update with `apt-get update`.
 ```
 apt-key update
 apt-get update
 ```
-
-
-
