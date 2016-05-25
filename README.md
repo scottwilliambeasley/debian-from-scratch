@@ -232,7 +232,7 @@ deb http://http.debian.net/debian/ jessie non-free contrib main
 
 # jessie-updates, previously known as 'volatile'
 deb http://httpredir.debian.org/debian/ jessie-updates main  
-deb-src http://httpredir.debian.org/debian/ jessie-updates main> EOF
+deb-src http://httpredir.debian.org/debian/ jessie-updates main
 EOF
 ```
 
@@ -337,7 +337,13 @@ $endif
 EOF
 ```
 
+###Updating `apt's` package lists
 
+We are now ready to update our list of packages and take full advantage of `apt`. To do this, we update our local keyring with the 
+```
+apt-key update
+apt-get update
+```
 
 
 
