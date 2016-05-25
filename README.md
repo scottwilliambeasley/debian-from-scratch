@@ -22,7 +22,7 @@ This project intends to be a community resource to help those interested in crea
 
 This manual is designed to be used after completing all instructions up to the end of Chapter 5 of the Linux From Scratch book, version 7.9. One first follows the instructions of the original LFS book, and builds the temporary system that is created in LFS Chapter 5. One is required to have a fully-functional temporary system which the the outcome of Chapter 5. 
 
-After completing the preliminary preparartions, one then consults this manual and follows it step-by-step.
+After completing the preliminary preparations, one then consults this manual and follows it step-by-step.
 
 Like the original LFS manual, when dealing with packages to be compiled, each section already assumes that you have extracted the source code and have changed your main directory into the main folder of the extracted content. However, when dealing with .deb files no such extraction is needed. One only needs to follow the instructions while having the .deb file in your current directory.
 
@@ -210,7 +210,7 @@ Before we proceed with updating `apt's` cache, let's create some much-needed con
 cat > /etc/resolv.conf << "EOF"
 nameserver 8.8.8.8
 nameserver 8.8.4.4
-"EOF"
+EOF
 ```
 
 ####/etc/apt/sources.list
@@ -241,7 +241,7 @@ EOF
 `/etc/hosts` is a file used to contain mapping of IP addresses to hostnames. This file is usually checked before DNS queries, at the very least, this should contain your `ipv4` and `ipv6` loopback addresses.
 
 ```
-cat >/etc/hosts << "EOF"
+cat > /etc/hosts << "EOF"
 127.0.0.1       localhost
 
 # The following lines are desirable for IPv6 capable hosts
@@ -254,7 +254,7 @@ EOF
 `/etc/hostname` is used to contain your host's DNS name. Edit this if you like.
 
 ```
-cat >/etc/hostname << "EOF"
+cat > /etc/hostname << "EOF"
 debianfromscratch
 EOF
 ```
