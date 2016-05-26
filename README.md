@@ -198,6 +198,10 @@ Now install the other two packages in order:
 `dpkg -i (location_of_multiarch)`
 `dpkg -i (location_of_libc6)`
 
+And reinstall libgcc1 to cover over our ugly little hack and complete the full installation of each package:
+
+`dpkg -i (location of libgcc1)`
+
 ### Creating configuration files
 
 Before we proceed with updating `apt's` cache, let's create some much-needed configuration files in order to do so, as well as change how `bash` handles special keyboard presses. 
