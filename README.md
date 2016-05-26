@@ -69,7 +69,7 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/tools/sbin \
 ```
 
 #####Temporarily linking /bin/sh to /tools/bin/bash
-`ln /tools/bin/bash sh`
+`ln /tools/bin/bash /bin/sh`
 
 
 ##Creating a standard Linux file structure
