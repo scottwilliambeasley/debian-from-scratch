@@ -99,57 +99,14 @@ mkdir -pv /var/{opt,cache,lib/{color,misc,locate},local}
 
 ### Installing dpkg
 
-Before we can install `dpkg`, we must first complete the dependencies needed for it to compile using the toolchain located in our `/tools` directory. The following figure shows the dependencies needed for `dpkg` to compile properly:  
+With our `/tools` environment completely set up, we are ready to directly compile and install `dpkg` into our target environment. Replace the `build` variable with the appropriate architecture if it isn't 64-bit (which I am assuming that it is):
 
-<center>![](https://cdn.rawgit.com/scottwilliambeasley/debian-from-scratch/master/images/dpkg.svg)</center>
-#####Figure 1 - The dpkg dependency tree
 
-All of of these dependencies, only `gettext` has already been installed on our system. Thus we must compile all of these one by one until such a time comes where we have satisfied all of `dpkg`'s dependencies.
-
-**autoconf** [![source](http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz)]
-```
-./configure --prefix=/tools
-make
-make install
-```
-
-**automake** [![source](http://ftp.gnu.org/gnu/automake/automake-1.15.tar.xz)]
-```
-sed -i 's:/\\\${:/\\\$\\{:' bin/automake.in
-./configure --prefix=/tools
-make
-make install
-```
-
-**libtool** [![source](http://ftp.gnu.org/gnu/libtool/libtool-2.4.6.tar.xz)]
-```
-./configure --prefix=/tools
-make
-make install
-```
-
-**bison** [![source](http://ftp.gnu.org/gnu/bison/bison-3.0.4.tar.xz)]
-```
-./configure --prefix=/tools
-make
-make install
-```
-
-**flex** [![source](http://prdownloads.sourceforge.net/flex/flex-2.6.0.tar.xz)]
-```
-./configure --prefix=/tools
-make
-make install
-```
-
-**dpkg** [![source](http.debian.net/debian/pool/main/d/dpkg/dpkg_1.17.26.tar.xz)] 
 ```
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --build=x86_64-unknown-linux-gnu
 make
 make install
 ```
-
-Notice how all of the prerequisite software needed to compile `dpkg` is still installed in `/tools`, while the `dpkg` binary itself is installed in the `/usr` directory (specifically `/usr/bin`), its configuration files being placed in `/etc`, and its local state directory (which holds the dpkg database and other files) will be located within `/var`(specifically `/var/lib/dpkg`).
 
 ##### Creating dpkg's database
 We need to create `dpkg`'s database, which is merely a text file located in `/var/lib/dpkg/status`. `dpkg` stores all of its package information in this file, including package version, architecture, dependencies, etc. It does not yet currently exist. Without this file, dpkg will not function correctly, so it is important that we create this before we move forward.
