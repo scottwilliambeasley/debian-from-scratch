@@ -363,3 +363,46 @@ apt-get install base-files
 Any Linux system typically has a database full of manual pages, accessed by the `man` command. Most programs we've installed already have already added their documentation files in the proper location. All we need to do now is actually install `man` to take advantage of them, and any more that are added as time passes by.
 
 `apt-get install man`
+
+###Installing all remaining essential packages
+We've installed most of the packages, all that is left to do is install the rest of the packages marked with the priority `essential` by the Debian maintainers. Some of these are absolutely essential to system management, and some will barely be used at all. 
+
+To comply with the Debian standard, we must install all of these:
+
+`apt-get install bash bsdutils coreutils dash diffutils e2fsprogs findutils grep gzip hostname libc-bin init mount perl-base sed sysvinit-utils tar util-linux`
+
+**bash**: The gnu bourne-again shell, which is your standard linux shell.
+
+**bsdutils**: Provides a few binaries, most notably `renice` which is needed for changing process priorities, and `logger` which is used for interacting with the syslog system module.
+
+**coreutils**: The absolute most essential group of binaries needed to make any shell useful.
+
+**dash**: The Debian Almquist shell, which is a faster version of sh intended mainly for use by scripts.
+
+**diffutils**:
+
+**e2fsprogs**:
+
+**findutils**:
+
+**grep**:
+
+**gzip**:
+
+**hostname**:
+
+**libc-bin**:
+
+**init**:
+
+**mount**:
+
+**perl-base**:
+
+**sed**:
+
+**sysvinit-utils**:
+
+**tar**:
+
+**util-linux**:
