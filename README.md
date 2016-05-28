@@ -334,3 +334,19 @@ At this point, we should run passwd to change our root password.
 We should then run `pwconv` to convert our /etc/passwd entries into shadow entries in `/etc/shadow`:
 
 `pwconv`
+
+###Fixing the terminal and adding reading/editing utilities
+#####ncurses libraries and binaries
+A large number of command line utilites rely on the ncurses library to provide a text-interface for user interaction over the terminal. These include simple utilities such as `less` and `nano`. Without this library, these utilities will fail to display properly. We must install the complete suite of the ncurses library in order to prevent said errors from occurring:
+
+`apt-get install ncurses-base ncurses-bin ncurses-doc`
+
+#####dialog
+Dialog is a perl module which some scripts attempt to use to provide a text-interface used during configuration or installation. You may have noticed some packages warning you that this utility was non-existent during installation. Let's fix this: 
+
+`apt-get install dialog`
+
+#####less, vim and nano
+Now that we've installed most of the libraries and utilities needed for terminal utilities, let's install some of the most basic and well-used ones:
+
+`apt-get install less vim nano`
