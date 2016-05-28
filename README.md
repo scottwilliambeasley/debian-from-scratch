@@ -350,3 +350,11 @@ Dialog is a perl module which some scripts attempt to use to provide a text-inte
 Now that we've installed most of the libraries and utilities needed for terminal utilities, let's install some of the most basic and well-used ones:
 
 `apt-get install less vim nano`
+
+###Creating the standard filesystem hierarchy on a Debian system
+Let's create the standard folder structure for a debian system. This can be done easily by installing `base-files`. First, we have to remove the `/var/mail` directory though or else it will complain that it already exists.
+
+```
+rm -rf /var/mail
+apt-get install base-files
+```
