@@ -358,3 +358,8 @@ Let's create the standard folder structure for a debian system. This can be done
 rm -rf /var/mail
 apt-get install base-files
 ```
+
+###Building the man Documentation system
+Any Linux system typically has a database full of manual pages, accessed by the `man` command. Most programs we've installed already have already added their documentation files in the proper location. All we need to do now is actually install `man` to take advantage of them, and any more that are added as time passes by.
+
+`apt-get install man`
