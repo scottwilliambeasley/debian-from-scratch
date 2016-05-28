@@ -68,8 +68,18 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/tools/sbin \
 /tools/bin/bash --login +h
 ```
 
-#####Temporarily linking /bin/sh to /tools/bin/bash
-`ln /tools/bin/bash /bin/sh`
+#####Creating temporary links linking to /tools/bin/bash
+In order the for pre and post-installation scripts that come inside a standard .deb file to work, these need to be able to have access to a shell. These typically either specify using `/bin/sh` or `/bin/bash`. Without access to a shell at the exact location that the script specifies, the installation script will fail thus causing the installation of the package itself to fail.
+
+We must mitigate this problem by making sure that the `/bin` directory already exists, and then creating symlinks from these two locations towards the bash we have in our temporary `/tools` environment. 
+
+When we get to the point of installing debian's "priority:essential" packages, which include both of these shells, these symlinks will be overwritten with native copies of these binaries.
+
+```
+mkdir /bin
+ln /tools/bin/bash /bin/bash
+ln /tools/bin/bash /bin/sh
+```
 
 ### Installing dpkg
 
