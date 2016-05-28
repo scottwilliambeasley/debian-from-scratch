@@ -289,3 +289,42 @@ We are now ready to update our list of packages and take full advantage of `apt`
 apt-key update
 apt-get update
 ```
+
+###Creating user and group databases
+
+Before we install more software, we must make sure that our password, group and authentication mechanisms are all in place. This is because some packages will require the adding of a new user or group to the system as part of their installation process. Without these base functionalities already in place, installation of said packages will fail.
+
+#####debianutils (
+We install debianutils to provide the `tempfile` command needed by one of `base-passwd`'s installation scripts. Without this command, installation of `base-passwd` will fail.
+`apt-get install debianutils`
+
+#####base-passwd 
+We install `base-passwd` to provide standard the standard minimal `/etc/passwd` and `/etc/group` files, which are the same across all debian systems. It does this by running the `update-passwd` binary upon its installation.
+`apt-get install base-passwd`
+
+#####Creating /etc/shadow and /etc/gshadow
+We have to manually create `/etc/shadow` and `/etc/gshadow`, as the `passwd` package will fail to configure if it cannot find these files:
+
+`touch /etc/shadow /etc/gshadow`
+
+#####login 
+We then install the `login` package, which gives us the ability to establish new sessions on the system with `login`, privilege escalation with `su`, the linux pluggable authentication module (PAM) files for both said binaries, a fake shell `/bin/nologin`,  and the `/etc/login.defs` file which is essential for group creation. There are more functionalities included with this package, but these are the most mentionable.
+`apt-get install login`
+ 
+#####passwd 
+We then install `passwd` package, which provides the lion's share of utilities and configuration files used to create and manipulate user and group account information.
+`apt-get install passwd`
+
+
+#####adduser 
+We must also install the `adduser` package, because this provides us with the default `/etc/adduser.conf` file which will be needed to install new users properly.
+`apt-get install adduser`
+
+#####Establishing root password and shadowfile entries
+With all the aforementioned utilities and packages installed, our system is now capable of the full functionality of user & group account manipulation.
+
+At this point, we should run passwd to change our root password. 
+`passwd root`
+
+We should then run `pwconv` to convert our /etc/passwd entries into shadow entries in `/etc/shadow`
+`pwconv`a
