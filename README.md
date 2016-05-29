@@ -371,38 +371,26 @@ To comply with the Debian standard, we must install all of these:
 
 `apt-get install bash bsdutils coreutils dash diffutils e2fsprogs findutils grep gzip hostname libc-bin init mount perl-base sed sysvinit-utils tar util-linux`
 
-**bash**: The gnu bourne-again shell, which is your standard linux shell.
+Here follows is a short description of each package installed:
 
-**bsdutils**: Provides a few binaries, most notably `renice` which is needed for changing process priorities, and `logger` which is used for interacting with the syslog system module.
+| Description | What it provides |
+| ------------- | :-----: |
+| **bash**: | The gnu bourne-again shell, which is your standard linux shell. |
+| **bsdutils**: | Provides a few binaries, most notably `renice` which is needed for changing process priorities, and `logger` which is used for interacting with the syslog system module.|
+| **coreutils**: | The absolute most essential group of binaries needed to make any shell useful. |
+| **dash**: | The Debian Almquist shell, which is a faster version of sh intended mainly for use by scripts. |
+| **diffutils**: | Provides utilities for comparing the contents of files between each other.  |
+| **e2fsprogs**: | Provides  utilities for working with the ext family of filesystems.  |
+| **findutils**: | Provides the find utility for finding files.  |
+| **grep**: | Provides the grep utility, used for finding strings within files or output you pipe into it. |
+| **gzip**: | Provides the gzip utility, used for working with files using LZ77 encoding. |
+| **hostname**: | Provides the a set of utilities for manipulating the system's host name. |
+| **libc-bin**: |  Provides the GNU implementation of the standard C library. Essential for creating and using programs. |
+| **init**: | Provides the standard system initialization suite for Debian. |
+| **mount**: | Provides the standard system utilities for mounting and unmounting filesystems, including swapfiles.  |
+| **perl-base**: | Provides the perl programming language.  |
+| **sed**: | Provides the sed programming language, generally used for editing text.  |
+| **sysvinit-utils**: | Provides system-v like utilities. |
+| **tar**: | Provides the tar program, used for storing and retrieving files from a taped archive.  |
+| **util-linux**: | Provides many vital system utilities. |
 
-**coreutils**: The absolute most essential group of binaries needed to make any shell useful.
-
-**dash**: The Debian Almquist shell, which is a faster version of sh intended mainly for use by scripts.
-
-**diffutils**:
-
-**e2fsprogs**:
-
-**findutils**:
-
-**grep**:
-
-**gzip**:
-
-**hostname**:
-
-**libc-bin**:
-
-**init**:
-
-**mount**:
-
-**perl-base**:
-
-**sed**:
-
-**sysvinit-utils**:
-
-**tar**:
-
-**util-linux**:
