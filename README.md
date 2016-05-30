@@ -457,3 +457,66 @@ cp -v .config /boot/config-(identifier)
 Also, let's install the kmod package to provide our system with the commands needed to load, remove and manipulate kernel modules:
 
 `apt-get install kmod `
+
+###Making the system bootable
+
+
+####Reconfiguring a drive with a pre-installed GRUB2 bootloader
+If this Debian Linux system is on a partition of an already bootable drive, all one needs to do to make this system bootable is to replace the configuration file of the drive's bootloader to include this system's corresponding partition in its list of bootable partitions.
+
+If using GRUB2, then using the `grub2-mkconfig` utility makes it very simple to do so. Merely point it to the location of the already existing grub.cfg file:
+
+`grub2-mkconfig -o /boot/(path to grub.cfg)`
+
+####Installing GRUB2 onto a drive with no pre-installed bootloader
+In the event that the partition is on a drive that does not yet have its own bootloader, you must install it and configure it yourself. To install GRUB2, you must first exit your chroot.
+
+```
+exit
+grub2-install /dev/(location of drive that holds this partition)`
+```
+
+Since this GRUB2 install does not have a configuration file yet, let's create one via template:
+
+```
+cat > /boot/grub/grub.cfg << "EOF"
+# Begin /boot/grub/grub.cfg
+set default=0
+set timeout=5
+
+insmod ext2
+set root=(hd0,2)
+
+menuentry "Debian from Scratch GNU/Linux" {
+        linux   /boot/(kernel-location) root=/dev/sda2 ro
+}
+EOF
+```
+
+Then, edit this file to replace the (kernel-location) string in the file with the actual location of said kernel inside the partition.
+
+Afterwards, use the previously aforementioned `chroot` command provided in the 'Entering our chroot' section to return to the chroot.
+
+###Creating /etc/fstab
+
+Before you boot into your system, it is absolutely -vital- for you to create and configure your /etc/fstab file. 
+
+If you do -not- have an /etc/fstab file or fail to specify what partition is to be mounted as the root filesystem, you will be stuck within a temporary, read-only filesystem created by the kernel, located only in RAM. It uses this to switch into the supposed root filesystem. You do not want to be stuck here.
+
+So we create a base /etc/fstab:
+
+```
+cat > /etc/fstab << "EOF"
+# Begin /etc/fstab
+
+# file system  mount-point  type     options             dump  fsck
+#                                                              order
+
+/dev/<xxx>     /            <fff>    defaults            1     1
+/dev/<yyy>     swap         swap     pri=1               0     0
+
+# End /etc/fstab
+EOF
+```
+
+Modify the first entry with the partition location of this system, and the type of filesystem. The second entry should contain the location of your swap partition. If you don't intend on using one, remove the line.
