@@ -394,3 +394,15 @@ Here follows is a short description of each package installed:
 | **tar**: | Provides the tar program, used for storing and retrieving files from a taped archive.  |
 | **util-linux**: | Provides many vital system utilities. |
 
+###Installing the kernel
+
+You have two options here: either you can install the latest kernel image for your system architecture provided by the Debian project, or you can compile your own.
+
+####Installing Debian's kernel
+
+If you want to install Debian's standard kernel, you will want to search for the available images provided for your architecture, and then install the approriate image.
+
+```
+apt-cache search linux-image
+apt-get install (selected image)
+```
