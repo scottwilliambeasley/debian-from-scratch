@@ -406,3 +406,54 @@ If you want to install Debian's standard kernel, you will want to search for the
 apt-cache search linux-image
 apt-get install (selected image)
 ```
+
+####Compiling and installing your own custom kernel
+
+You can also compile your own custom kernel if you feel like it. 
+
+To do this, you will need a tarball of the Linux kernel source, which you probably already have.
+
+You will also need to install the gcc package (which incidentally installs most other software needed to compile), the libncurses5-dev package (which provides the libraries needed to use the command line configuration utility for the kernel source), the bc package (a language that supports precision numbers), and the make package (the make utility used for compiling the source into binary). 
+
+`apt-get install gcc libncurses5-dev bc make`
+
+Now open up your extracted kernel source. Ensure that there are no stale files left behind from the developers in the source tree:
+
+`make mrproper`
+
+Install the header files for this particular kernel. You will need these in the future if you intend to compile software that will take advantage of this kernel's API in the future:
+
+```
+make INSTALL_HDR_PATH=dest headers_install
+cp -rv dest/include/* /usr/include
+```
+
+I recommend that you use the default configuration as the base for your kernel build, as it will at the very least ensure that your system will be able to boot using the image we create later.
+
+`make defconfig`
+
+Then, customize your kernel according to your heart's desire.
+
+`make menuconfig`
+
+This book cannot help you figure out what exact modules to add to the kernel - you need determine the exact hardware that exists on your system yourself, and do research as to what modules will make those pieces of hardware functional. Google is your friend. 
+
+After you've customized your kernel, compile it.
+
+`make`
+
+If you've created a modular kernel, install the compiled modules into it:
+
+`make modules_install`
+
+Copy the completed kernel into the /boot/ directory, and make sure that it's name starts with 'vmlinuz'. It's a good idea to append an identifying string to the name of this file. The version number of this kernel will do. We also copy the System.map file, and the config for this kernel (so we can easily examine how this kernel was built). We append our identifying string to this too, because as time passes by we may want to install more kernels.
+
+```
+cp -v arch/x86/boot/bzImage /boot/vmlinuz-(identifier)
+cp -v System.map /boot/System.map-4.4.2
+cp -v .config /boot/config-(identifier)
+```
+
+Also, let's install the kmod package to provide our system with the commands needed to load, remove and manipulate kernel modules:
+
+`apt-get install kmod `
