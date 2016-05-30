@@ -529,7 +529,7 @@ Congratulations! You've finished building your own custom Debian-powered system,
 
 If you found this guide useful, or have suggestions, the author would love to hear from you. Email him at 
 
-scottwilliambeasley AT gmail .com . (Replace
+scottwilliambeasley AT gmail .com . Replace the AT with @, and remove spaces.
 
 Also, contributions or additions to this manual are very much welcomed. You may do so by using this repository:
 
