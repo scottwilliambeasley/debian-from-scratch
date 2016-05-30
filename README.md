@@ -520,3 +520,17 @@ EOF
 ```
 
 Modify the first entry with the partition location of this system, and the type of filesystem. The second entry should contain the location of your swap partition. If you don't intend on using one, remove the line.
+
+###The End
+
+Congratulations! You've finished building your own custom Debian-powered system, and now have the complete range of functionality expected of a Debian system.
+
+###Comments, suggestions, bugs
+
+If you found this guide useful, or have suggestions, the author would love to hear from you. Email him at 
+
+scottwilliambeasley AT gmail .com . (Replace
+
+Also, contributions or additions to this manual are very much welcomed. You may do so by using this repository:
+
+https://github.com/scottwilliambeasley/debian-from-scratch/
