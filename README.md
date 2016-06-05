@@ -92,7 +92,15 @@ You will need to download the following .deb files and place them all in the sam
 [tar](https://packages.debian.org/jessie/tar)
 
 [zlib1g](https://packages.debian.org/jessie/zlib1g)
-##Preparing the virtual kernel filesystem mount points
+
+
+##Creating the Debian From Scratch system
+
+All following commands need to be performed as `root`, so become the `root` user on your host system:
+
+`su`
+
+###Preparing the virtual kernel filesystem mount points
 First we create the directories which are supposed to contain virtual kernel filesystems. These are filesystems which are located in memory only and created dynamically every time the kernel is loaded. 
 
 Each kind has a different purpose. The `devpts` contains device files for each pseudo terminal on your system. The `proc` contains information about every single process. The `sysfs` contains driver and device information. The `tmpfs` is a freely usable space which programs may use to store information in memory. 
