@@ -235,9 +235,9 @@ To be absolutely certain, you can execute the following command, which counts ho
 
 If it lists 23 packages, then you can correctly assume that everything was installed as intended. 
 
-### Creating configuration files
+### Creating networking configuration files
 
-Before we proceed with updating `apt's` cache, let's create some much-needed configuration files in order to do so, as well as change how `bash` handles special keyboard presses. 
+Before we proceed with updating `apt's` cache, we need to define both the system's networking configuration files, and apt's list of software repositories.
 
 ####/etc/resolv.conf
 
@@ -296,7 +296,64 @@ debianfromscratch
 EOF
 ```
 
-####/etc/inputrc
+###Updating apt's package lists
+
+We are now ready to update our list of packages and take full advantage of `apt`. To do this, we update our local keyring of valid Debian developer gnu pgp signatures using `apt-key update`, and then update with `apt-get update`.
+```
+apt-key update
+apt-get update
+```
+
+###Creating user and group databases
+
+Before we install more software, we must make sure that our password, group and authentication mechanisms are all in place. This is because some packages will require the adding of a new user or group to the system as part of their installation process. Without these base functionalities already in place, installation of said packages will fail.
+
+#####debianutils (
+We install debianutils to provide the `tempfile` command needed by one of `base-passwd`'s installation scripts. Without this command, installation of `base-passwd` will fail.
+
+`apt-get install debianutils`
+
+#####base-passwd 
+We install `base-passwd` to provide standard the standard minimal `/etc/passwd` and `/etc/group` files, which are the same across all debian systems. It does this by running the `update-passwd` binary upon its installation.
+
+`apt-get install base-passwd`
+
+#####Creating /etc/shadow and /etc/gshadow
+We have to manually create `/etc/shadow` and `/etc/gshadow`, as the `passwd` package will fail to configure if it cannot find these files:
+
+`touch /etc/shadow /etc/gshadow`
+
+#####login 
+We then install the `login` package, which gives us the ability to establish new sessions on the system with `login`, privilege escalation with `su`, the linux pluggable authentication module (PAM) files for both said binaries, a fake shell `/bin/nologin`,  and the `/etc/login.defs` file which is essential for group creation. There are more functionalities included with this package, but these are the most mentionable.
+
+`apt-get install login`
+ 
+#####passwd 
+We then install `passwd` package, which provides the lion's share of utilities and configuration files used to create and manipulate user and group account information.
+
+`apt-get install passwd`
+
+#####adduser 
+We must also install the `adduser` package, because this provides us with the default `/etc/adduser.conf` file which will be needed to install new users properly.
+
+`apt-get install adduser`
+
+#####Establishing root password and shadowfile entries
+With all the aforementioned utilities and packages installed, our system is now capable of the full functionality of user & group account manipulation.
+
+At this point, we should run passwd to change our root password. 
+
+`passwd root`
+
+We should then run `pwconv` to convert our /etc/passwd entries into shadow entries in `/etc/shadow`:
+
+`pwconv`
+
+###Fixing the terminal and adding reading/editing utilities
+
+Our terminal does not yet have the full functionality one would expect of a terminal, and standard terminal utilities may still fail to function properly at this point. Let's install the proper libraries and create the configurations needed to make these , before we install 
+
+####Creating /etc/inputrc file
 
 `/etc/inputrc` is the global configuration file for the used by the `libreadline6` library, which most shells use in order to understand how to handle many special keyboard situations, such as what behavior should be default when hitting the HOME and END keys. Without this file, many special keys and two-key stroke combos such as ctrl+left will fail to work. 
 
@@ -374,71 +431,17 @@ $endif
 EOF
 ```
 
-###Updating apt's package lists
-
-We are now ready to update our list of packages and take full advantage of `apt`. To do this, we update our local keyring of valid Debian developer gnu pgp signatures using `apt-key update`, and then update with `apt-get update`.
-```
-apt-key update
-apt-get update
-```
-
-###Creating user and group databases
-
-Before we install more software, we must make sure that our password, group and authentication mechanisms are all in place. This is because some packages will require the adding of a new user or group to the system as part of their installation process. Without these base functionalities already in place, installation of said packages will fail.
-
-#####debianutils (
-We install debianutils to provide the `tempfile` command needed by one of `base-passwd`'s installation scripts. Without this command, installation of `base-passwd` will fail.
-
-`apt-get install debianutils`
-
-#####base-passwd 
-We install `base-passwd` to provide standard the standard minimal `/etc/passwd` and `/etc/group` files, which are the same across all debian systems. It does this by running the `update-passwd` binary upon its installation.
-
-`apt-get install base-passwd`
-
-#####Creating /etc/shadow and /etc/gshadow
-We have to manually create `/etc/shadow` and `/etc/gshadow`, as the `passwd` package will fail to configure if it cannot find these files:
-
-`touch /etc/shadow /etc/gshadow`
-
-#####login 
-We then install the `login` package, which gives us the ability to establish new sessions on the system with `login`, privilege escalation with `su`, the linux pluggable authentication module (PAM) files for both said binaries, a fake shell `/bin/nologin`,  and the `/etc/login.defs` file which is essential for group creation. There are more functionalities included with this package, but these are the most mentionable.
-
-`apt-get install login`
- 
-#####passwd 
-We then install `passwd` package, which provides the lion's share of utilities and configuration files used to create and manipulate user and group account information.
-
-`apt-get install passwd`
-
-#####adduser 
-We must also install the `adduser` package, because this provides us with the default `/etc/adduser.conf` file which will be needed to install new users properly.
-
-`apt-get install adduser`
-
-#####Establishing root password and shadowfile entries
-With all the aforementioned utilities and packages installed, our system is now capable of the full functionality of user & group account manipulation.
-
-At this point, we should run passwd to change our root password. 
-
-`passwd root`
-
-We should then run `pwconv` to convert our /etc/passwd entries into shadow entries in `/etc/shadow`:
-
-`pwconv`
-
-###Fixing the terminal and adding reading/editing utilities
-#####ncurses libraries and binaries
+####ncurses libraries and binaries
 A large number of command line utilites rely on the ncurses library to provide a text-interface for user interaction over the terminal. These include simple utilities such as `less` and `nano`. Without this library, these utilities will fail to display properly. We must install the complete suite of the ncurses library in order to prevent said errors from occurring:
 
 `apt-get install ncurses-base ncurses-bin ncurses-doc`
 
-#####dialog
+####dialog
 Dialog is a perl module which some scripts attempt to use to provide a text-interface used during configuration or installation. You may have noticed some packages warning you that this utility was non-existent during installation. Let's fix this: 
 
 `apt-get install dialog`
 
-#####less, vim and nano
+####less, vim and nano
 Now that we've installed most of the libraries and utilities needed for terminal utilities, let's install some of the most basic and well-used ones:
 
 `apt-get install less vim nano`
