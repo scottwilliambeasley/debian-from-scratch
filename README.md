@@ -34,6 +34,64 @@ In Debian From Scratch, we branch off from the end of Chapter 5. Instead of usin
 
 We then compile and install dpkg as the first part of our final system, and use dpkg along with some clever dependency hacking to satisfy all remaining dependencies needed to install apt. This allows us to rely on apt for the overwhelming majority of tasks involving the installation of software onto our new system, and to allow us to avoid the exercise in tedium that is manual dependency management.
 
+##Obtaining all needed packages
+
+Let's start off by using our host system to download the packages we need, and place them somewhere inside our $LFS partition.
+
+####source files
+The only source file you will need to download is the source for dpkg:
+
+[dpkg](http://http.debian.net/debian/pool/main/d/dpkg/dpkg_1.17.27.tar.xz)
+
+####.deb files
+
+You will need to download the following .deb files and place them all in the same directory inside of your `$LFS` partition. These are needed to install the entire dependency chain of `apt`. Open the link, and manually download the .deb file corresponding to your LFS system architecture:
+
+[apt](https://packages.debian.org/jessie/apt)
+
+[debian-archive-keyring](https://packages.debian.org/jessie/debian-archive-keyring)
+
+[dpkg](https://packages.debian.org/jessie/dpkg)
+
+[gcc-4.9-base](https://packages.debian.org/jessie/gcc-4.9-base)
+
+[gnupg](https://packages.debian.org/jessie/gnupg)
+
+[gpgv](https://packages.debian.org/jessie/gpgv)
+
+[libacl1](https://packages.debian.org/jessie/libacl1)
+
+[libapt-pkg4.12](https://packages.debian.org/jessie/libapt-pkg4.12)
+
+[libattr1](https://packages.debian.org/jessie/libattr1)
+
+[libbz2-1.0](https://packages.debian.org/jessie/libbz2-1.0)
+
+[libc6](https://packages.debian.org/jessie/libc6)
+
+[libgcc1](https://packages.debian.org/jessie/libgcc1)
+
+[liblzma5](https://packages.debian.org/jessie/liblzma5)
+
+[libpcre3](https://packages.debian.org/jessie/libpcre3)
+
+[libreadline6](https://packages.debian.org/jessie/libreadline6)
+
+[libselinux1](https://packages.debian.org/jessie/libselinux1)
+
+[libstdc++6](https://packages.debian.org/jessie/libstdc++6)
+
+[libtinfo5](https://packages.debian.org/jessie/libtinfo5)
+
+[libusb-0.1-4](https://packages.debian.org/jessie/libusb-0.1-4)
+
+[multiarch-support](https://packages.debian.org/jessie/multiarch-support)
+
+[readline-common](https://packages.debian.org/jessie/readline-common)
+
+[tar](https://packages.debian.org/jessie/tar)
+
+[zlib1g](https://packages.debian.org/jessie/zlib1g)
 ##Preparing the virtual kernel filesystem mount points
 First we create the directories which are supposed to contain virtual kernel filesystems. These are filesystems which are located in memory only and created dynamically every time the kernel is loaded. 
 
