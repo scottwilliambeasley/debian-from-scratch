@@ -30,9 +30,11 @@ Like the original LFS manual, when dealing with packages to be compiled, each se
 
 In the original Linux From Scratch book, we created a cross-toolchain, using the toolchain native to our system. We then used this cross-toolchain to create a native toolchain, which ended up being the temporary '/tools' system environment. This was Chapter 5's goal. We then used this temporary system to build our final system, which was Chapter 6's goal.
 
-In Debian From Scratch, we branch off from the end of Chapter 5. Instead of using the toolchain and other utilies installed in `/tools` to compile every single part of the final system, we instead extend this toolset to include the minimum required dependencies for installation of Debian's package manager, dpkg.
+In Debian From Scratch, we branch off from the end of Chapter 5. Instead of using the toolchain and other utilies installed in `/tools` to compile every single part of the final system, we instead use this toolset to compile and install Debian's package manager, dpkg  as the first part of our final system. 
 
-We then compile and install dpkg as the first part of our final system, and use dpkg along with some clever dependency hacking to satisfy all remaining dependencies needed to install apt. This allows us to rely on apt for the overwhelming majority of tasks involving the installation of software onto our new system, and to allow us to avoid the exercise in tedium that is manual dependency management.
+We then do some dependency hacking to satisfy all remaining dependencies needed to install apt. This allows us to rely on apt for the overwhelming majority of tasks involving the installation of software onto our new system, and to allow us to avoid the exercise in tedium that is manual dependency management.
+
+We then use apt to install all base packages functionalities needed for the system to operate properly, in the correct order, to prevent problems and broken packages.
 
 ##Obtaining all needed packages
 
