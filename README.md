@@ -8,13 +8,13 @@ The original Linux from Scratch manual is purposefully vague as to what techniqu
 
 The disadvantage of compiling everything to create a fully-fledged system is time. After one builds an LFS system for the first time, he/she is apt to realize that managing dependencies can be an arduous task, to say the least. Going through the insufferable exercise of hunting down dozens to possibly hundreds packages, mapping dependencies, configuring and installing these dependencies in the correct order, just to install a single piece of software, is not a viable alternative to a system administrator who values his time.
 
-The answer to this problem, is obviously to use a package manager. There are many available package managers, the most popular of which are the Debian-based package management suites (dpkg and apt), and the Red Hat based package management suites (rpm and yum). 
+The answer to this problem, is obviously to use a package manager. There are many available package managers, the most popular of which are the Debian-based package managers (dpkg and apt), and the Red Hat based package managers (rpm and yum). 
 
 This manual will teach you how to build your system utilizing the Debian set of package management tools by utilizing the temporary system environment created in Linux From Scratch.
 
 ## Purpose for this project
 
-I chose to make this manual because I have seen woefully old guides on the internet teaching others how to get dpkg and apt running on their own custom linux, and people asking on various forums on how to install dpkg and apt, but not getting the help that they need. These guides are outdated and no longer contain up-to-date information, which I intend to fix here in this manual.
+I chose to make this manual because I have seen woefully old guides on the internet teaching others how to get dpkg and apt running on their own custom Linux, and people asking on various forums on how to install dpkg and apt, but not getting the help that they need. These guides are outdated and no longer contain up-to-date information, which I intend to fix here in this manual.
 
 This project intends to be a community resource to help those interested in creating their own custom system from the ground up, while fully taking advantage of the Debian suite of package management, dpkg and apt, in order to solve the problems of package dependency installation and management.
 
@@ -47,7 +47,7 @@ The only source file you will need to download is the source for dpkg:
 
 ####.deb files
 
-You will need to download the following .deb files and place them all in the same directory inside of your `$LFS` partition. These are needed to install the entire dependency chain of `apt`. Open the link, and manually download the .deb file corresponding to your LFS system architecture:
+You will need to download the following .deb files and place them all in the same directory inside of your `$LFS` partition. Only these .deb files should occupy this directory. These are needed to install the entire dependency chain of `apt`. Open the link, and manually download the .deb file corresponding to your LFS system architecture:
 
 [apt](https://packages.debian.org/jessie/apt)
 
@@ -209,7 +209,7 @@ Now install the other two packages in order:
 
 And reinstall libgcc1 to cover over our ugly little hack and complete the full installation of each package:
 
-`dpkg -i (location of libgcc1)`
+`dpkg -i --reinstall (location of libgcc1)`
 
 ####Installing the rest of apt's dependencies
 
@@ -223,17 +223,21 @@ Regardless of the actual dependency tree, there is a quick and dirty way to inst
 
 What happens here is that dpkg will attempt to install all software packages in the directory. It will inevitably fail, but do not fret. Simply repeat the command until everything is installed.
 
-What is happening here is that dpkg is attempting to install each package without actually taking into mind the dependency tree. So with each execution of the above command, another level of the dependency tree will be fulfilled, until it's successfully able to confirm that the entire tree was installed. Once you no longer get any errors from dpkg, it means everything was installed.
+#####How this works
+
+What happens when we run the command above is that dpkg is attempting to install each package without actually taking into mind the dependency tree. So with each execution of the above command, another level of the dependency tree will be fulfilled, until it's successfully able to confirm that the entire tree was installed. Once you no longer get any errors from dpkg, it means everything was installed.
 
 dpkg is simply not as intelligent as something like apt, which would automatically build a dependency map, and install all prerequisite software before attempting to install software dependent on said software.
 
 You might also notice that dpkg itself is part of the .deb files that needed to be installed. Don't worry, this doesn't break anything. We already have dpkg, but are just installing the official package to update its own database because the database never actually contained itself as part of the list of installed packages.
  
+#####Double checking if everything is installed
+ 
 To be absolutely certain, you can execute the following command, which counts how many packages dpkg counts as installed in its database:
 
-`echo $(($(dpkg -l | wc -l)-3))`
+`echo $(($(dpkg -l | wc -l)-5))`
 
-If it lists 23 packages, then you can correctly assume that everything was installed as intended. 
+If this returns the value 23, then you can correctly assume that everything was installed as intended. 
 
 ### Creating networking configuration files
 
@@ -308,7 +312,7 @@ apt-get update
 
 Before we install more software, we must make sure that our password, group and authentication mechanisms are all in place. This is because some packages will require the adding of a new user or group to the system as part of their installation process. Without these base functionalities already in place, installation of said packages will fail.
 
-#####debianutils (
+#####debianutils
 We install debianutils to provide the `tempfile` command needed by one of `base-passwd`'s installation scripts. Without this command, installation of `base-passwd` will fail.
 
 `apt-get install debianutils`
@@ -454,7 +458,7 @@ rm -rf /var/mail
 apt-get install base-files
 ```
 
-###Building the man Documentation system
+###Building the man documentation system
 Any Linux system typically has a database full of manual pages, accessed by the `man` command. Most programs we've installed already have already added their documentation files in the proper location. All we need to do now is actually install `man` to take advantage of them, and any more that are added as time passes by.
 
 `apt-get install man`
