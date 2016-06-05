@@ -143,6 +143,30 @@ And reinstall libgcc1 to cover over our ugly little hack and complete the full i
 
 `dpkg -i (location of libgcc1)`
 
+####Installing the rest of apt's dependencies
+
+At this point, I am assuming that -all- of the .deb files you need to install have been placed in a single directory. Double check to see that you have all of these files. `cd` to this directory right now.
+
+The truth is, for the remaining dependencies, the dependency tree for all of them is just too complicated for me to map out and give you a granular series of installation commands to execute what should otherwise be a straightforward operation.
+
+Regardless of the actual dependency tree, there is a quick and dirty way to install the rest of the entire apt dependency tree. Simply execute the following command, and repeat it as many times as you need until dpkg no longer complains:
+
+` dpkg -i *`
+
+What happens here is that dpkg will attempt to install all software packages in the directory. It will inevitably fail, but do not fret. Simply repeat the command until everything is installed.
+
+What is happening here is that dpkg is attempting to install each package without actually taking into mind the dependency tree. So with each execution of the above command, another level of the dependency tree will be fulfilled, until it's successfully able to confirm that the entire tree was installed. Once you no longer get any errors from dpkg, it means everything was installed.
+
+dpkg is simply not as intelligent as something like apt, which would automatically build a dependency map, and install all prerequisite software before attempting to install software dependent on said software.
+
+You might also notice that dpkg itself is part of the .deb files that needed to be installed. Don't worry, this doesn't break anything. We already have dpkg, but are just installing the official package to update its own database because the database never actually contained itself as part of the list of installed packages.
+ 
+To be absolutely certain, you can execute the following command, which counts how many packages dpkg counts as installed in its database:
+
+`echo $(($(dpkg -l | wc -l)-3))`
+
+If it lists 23 packages, then you can correctly assume that everything was installed as intended. 
+
 ### Creating configuration files
 
 Before we proceed with updating `apt's` cache, let's create some much-needed configuration files in order to do so, as well as change how `bash` handles special keyboard presses. 
