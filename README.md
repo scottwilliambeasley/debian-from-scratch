@@ -553,9 +553,13 @@ cp -v System.map /boot/System.map-4.4.2
 cp -v .config /boot/config-(identifier)
 ```
 
-Also, let's install the kmod package to provide our system with the commands needed to load, remove and manipulate kernel modules:
+###Adding modular functionality to the system
+
+Regardless of if you installed the standard Debian GNU/Linux kernel, or compiled your own, you are going to need to provide your system with the binaries needed to load, remove and manipulate kernel modules. 
 
 `apt-get install kmod `
+
+The only exception to this case would be if you compiled your own monolithic kernel with no modules, and do not intend on adding any beyond the ones you've already compiled into the kernel (which would generally be the case if you're doing embedded development).
 
 ###Making the system bootable
 
