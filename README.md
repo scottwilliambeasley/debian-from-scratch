@@ -2,7 +2,7 @@
 
 An instruction manual for teaching Linux From Scratch users how to make a custom Debian-powered distro.
 
-##Why Debian from Scratch?
+## Why Debian from Scratch?
 
 The original Linux from Scratch manual is purposefully vague as to what technique one should use to manage software dependencies. The suggestions that it gives, while no doubt being interesting exercises in package management, are not necessarily heavy-duty answers to a system administrator who intends on managing his time efficiently. 
 
@@ -40,12 +40,12 @@ We then use apt to install all base packages functionalities needed for the syst
 
 Let's start off by using our host system to download the packages we need, and place them somewhere inside our $LFS partition.
 
-####source files
+#### source files
 The only source file you will need to download is the source for dpkg:
 
 [dpkg](http://http.debian.net/debian/pool/main/d/dpkg/dpkg_1.17.27.tar.xz)
 
-####.deb files
+#### .deb files
 
 You will need to download the following .deb files and place them all in the same directory inside of your `$LFS` partition. Only these .deb files should occupy this directory. These are needed to install the entire dependency chain of `apt`. Open the link, and manually download the .deb file corresponding to your LFS system architecture:
 
@@ -96,13 +96,13 @@ You will need to download the following .deb files and place them all in the sam
 [zlib1g](https://packages.debian.org/jessie/zlib1g)
 
 
-##Creating the Debian From Scratch system
+## Creating the Debian From Scratch system
 
 All following commands need to be performed as `root`, so become the `root` user on your host system:
 
 `su`
 
-###Preparing the virtual kernel filesystem mount points
+### Preparing the virtual kernel filesystem mount points
 First we create the directories which are supposed to contain virtual kernel filesystems. These are filesystems which are located in memory only and created dynamically every time the kernel is loaded. 
 
 Each kind has a different purpose. The `devpts` contains device files for each pseudo terminal on your system. The `proc` contains information about every single process. The `sysfs` contains driver and device information. The `tmpfs` is a freely usable space which programs may use to store information in memory. 
@@ -152,7 +152,7 @@ We need to create `dpkg`'s database, which is merely a text file located in `/va
 
 `touch /var/lib/dpkg/status`
 
-#####Creating temporary links linking to /tools/bin/bash
+##### Creating temporary links linking to /tools/bin/bash
 In order the for pre and post-installation scripts that come inside a standard .deb file to work, these need to be able to have access to a shell. These typically either specify using `/bin/sh` or `/bin/bash`. Without access to a shell at the exact location that the script specifies, the installation script will fail thus causing the installation of the package itself to fail.
 
 We must mitigate this problem by making sure that the `/bin` directory already exists, and then creating symlinks from these two locations towards the bash we have in our temporary `/tools` environment. 
@@ -166,16 +166,16 @@ ln /tools/bin/bash /bin/sh
 ```
 
 
-###Installing apt
+### Installing apt
 
 Before we can install `apt`, and use this to automatically install the most of the rest of our system software, we have to install its immediate dependencies on our target system first.
 
 ![](https://cdn.rawgit.com/scottwilliambeasley/debian-from-scratch/master/images/apt-dependencies.svg)
-#####Figure 2 - The apt dependency tree, one level deep
+##### Figure 2 - The apt dependency tree, one level deep
 
 Each of these immediate dependencies has their own set of dependencies to fulfill. We shall start by completing the dependency tree for `debian-archive-keyring`. Unlike the compilation process needed to install `dpkg`, the process we now use to install software is by installing .`deb` files using `dpkg`. 
 
-####Installing debian-archive-keyring
+#### Installing debian-archive-keyring
 
 So we shall start fulfilling `dpkg`'s dependencies by first by installing `debian-archive-keyring`. However, there is a problem here - we have a circular dependency as illustrated below.
 
@@ -211,7 +211,7 @@ And reinstall libgcc1 to cover over our ugly little hack and complete the full i
 
 `dpkg -i --reinstall (location of libgcc1)`
 
-####Installing the rest of apt's dependencies
+#### Installing the rest of apt's dependencies
 
 At this point, I am assuming that -all- of the .deb files you need to install have been placed in a single directory. Double check to see that you have all of these files. `cd` to this directory right now.
 
@@ -223,7 +223,7 @@ Regardless of the actual dependency tree, there is a quick and dirty way to inst
 
 What happens here is that dpkg will attempt to install all software packages in the directory. It will inevitably fail, but do not fret. Simply repeat the command until everything is installed.
 
-#####How this works
+##### How this works
 
 What happens when we run the command above is that dpkg is attempting to install each package without actually taking into mind the dependency tree. So with each execution of the above command, another level of the dependency tree will be fulfilled, until it's successfully able to confirm that the entire tree was installed. Once you no longer get any errors from dpkg, it means everything was installed.
 
@@ -231,7 +231,7 @@ dpkg is simply not as intelligent as something like apt, which would automatical
 
 You might also notice that dpkg itself is part of the .deb files that needed to be installed. Don't worry, this doesn't break anything. We already have dpkg, but are just installing the official package to update its own database because the database never actually contained itself as part of the list of installed packages.
  
-#####Double checking if everything is installed
+##### Double checking if everything is installed
  
 To be absolutely certain, you can execute the following command, which counts how many packages dpkg counts as installed in its database:
 
@@ -243,7 +243,7 @@ If this returns the value 23, then you can correctly assume that everything was 
 
 Before we proceed with updating `apt's` cache, we need to define both the system's networking configuration files, and apt's list of software repositories.
 
-####/etc/resolv.conf
+#### /etc/resolv.conf
 
 `/etc/resolv.conf` is a file needed in order for your system to have DNS resolution. Without this file, no resolution typically happens, which makes updating `apt`'s cache of installable packages via `/etc/apt/sources.list` difficult.
 
@@ -254,7 +254,7 @@ nameserver 8.8.4.4
 EOF
 ```
 
-####/etc/apt/sources.list
+#### /etc/apt/sources.list
 
 sources.list is a file which `apt` uses to contact the repositories that hold your software. You want to use the repositories from one and only one distribution as much as possible, otherwise you risk breaking your Debian's clear chain of dependencies and creating an insane mess of your system. 
 
@@ -277,7 +277,7 @@ deb-src http://httpredir.debian.org/debian/ jessie-updates main
 EOF
 ```
 
-####/etc/hosts
+#### /etc/hosts
 
 `/etc/hosts` is a file used to contain mapping of IP addresses to hostnames. This file is usually checked before DNS queries, at the very least, this should contain your `ipv4` and `ipv6` loopback addresses.
 
@@ -290,7 +290,7 @@ cat > /etc/hosts << "EOF"
 EOF
 ```
 
-####/etc/hostname
+#### /etc/hostname
 
 `/etc/hostname` is used to contain your host's DNS name. Edit this if you like.
 
@@ -300,7 +300,7 @@ debianfromscratch
 EOF
 ```
 
-###Updating apt's package lists
+### Updating apt's package lists
 
 We are now ready to update our list of packages and take full advantage of `apt`. To do this, we update our local keyring of valid Debian developer gnu pgp signatures using `apt-key update`, and then update with `apt-get update`.
 ```
@@ -308,41 +308,41 @@ apt-key update
 apt-get update
 ```
 
-###Creating user and group databases
+### Creating user and group databases
 
 Before we install more software, we must make sure that our password, group and authentication mechanisms are all in place. This is because some packages will require the adding of a new user or group to the system as part of their installation process. Without these base functionalities already in place, installation of said packages will fail.
 
-#####debianutils
+##### debianutils
 We install debianutils to provide the `tempfile` command needed by one of `base-passwd`'s installation scripts. Without this command, installation of `base-passwd` will fail.
 
 `apt-get install debianutils`
 
-#####base-passwd 
+##### base-passwd 
 We install `base-passwd` to provide standard the standard minimal `/etc/passwd` and `/etc/group` files, which are the same across all debian systems. It does this by running the `update-passwd` binary upon its installation.
 
 `apt-get install base-passwd`
 
-#####Creating /etc/shadow and /etc/gshadow
+##### Creating /etc/shadow and /etc/gshadow
 We have to manually create `/etc/shadow` and `/etc/gshadow`, as the `passwd` package will fail to configure if it cannot find these files:
 
 `touch /etc/shadow /etc/gshadow`
 
-#####login 
+##### login 
 We then install the `login` package, which gives us the ability to establish new sessions on the system with `login`, privilege escalation with `su`, the linux pluggable authentication module (PAM) files for both said binaries, a fake shell `/bin/nologin`,  and the `/etc/login.defs` file which is essential for group creation. There are more functionalities included with this package, but these are the most mentionable.
 
 `apt-get install login`
  
-#####passwd 
+##### passwd 
 We then install `passwd` package, which provides the lion's share of utilities and configuration files used to create and manipulate user and group account information.
 
 `apt-get install passwd`
 
-#####adduser 
+##### adduser 
 We must also install the `adduser` package, because this provides us with the default `/etc/adduser.conf` file which will be needed to install new users properly.
 
 `apt-get install adduser`
 
-#####Establishing root password and shadowfile entries
+##### Establishing root password and shadowfile entries
 With all the aforementioned utilities and packages installed, our system is now capable of the full functionality of user & group account manipulation.
 
 At this point, we should run passwd to change our root password. 
@@ -353,11 +353,11 @@ We should then run `pwconv` to convert our /etc/passwd entries into shadow entri
 
 `pwconv`
 
-###Fixing the terminal and adding reading/editing utilities
+### Fixing the terminal and adding reading/editing utilities
 
 Our terminal does not yet have the full functionality one would expect of a terminal, and standard terminal utilities may still fail to function properly at this point. Let's install the proper libraries and create the configurations needed to make these , before we install 
 
-####Creating /etc/inputrc file
+#### Creating /etc/inputrc file
 
 `/etc/inputrc` is the global configuration file for the used by the `libreadline6` library, which most shells use in order to understand how to handle many special keyboard situations, such as what behavior should be default when hitting the HOME and END keys. Without this file, many special keys and two-key stroke combos such as ctrl+left will fail to work. 
 
@@ -435,22 +435,22 @@ $endif
 EOF
 ```
 
-####ncurses libraries and binaries
+#### ncurses libraries and binaries
 A large number of command line utilites rely on the ncurses library to provide a text-interface for user interaction over the terminal. These include simple utilities such as `less` and `nano`. Without this library, these utilities will fail to display properly. We must install the complete suite of the ncurses library in order to prevent said errors from occurring:
 
 `apt-get install ncurses-base ncurses-bin ncurses-doc`
 
-####dialog
+#### dialog
 Dialog is a perl module which some scripts attempt to use to provide a text-interface used during configuration or installation. You may have noticed some packages warning you that this utility was non-existent during installation. Let's fix this: 
 
 `apt-get install dialog`
 
-####less, vim and nano
+#### less, vim and nano
 Now that we've installed most of the libraries and utilities needed for terminal utilities, let's install some of the most basic and well-used ones:
 
 `apt-get install less vim nano`
 
-###Creating the standard filesystem hierarchy on a Debian system
+### Creating the standard filesystem hierarchy on a Debian system
 Let's create the standard folder structure for a debian system. This can be done easily by installing `base-files`. First, we have to remove the `/var/mail` directory though or else it will complain that it already exists.
 
 ```
@@ -458,12 +458,12 @@ rm -rf /var/mail
 apt-get install base-files
 ```
 
-###Building the man documentation system
+### Building the man documentation system
 Any Linux system typically has a database full of manual pages, accessed by the `man` command. Most programs we've installed already have already added their documentation files in the proper location. All we need to do now is actually install `man` to take advantage of them, and any more that are added as time passes by.
 
 `apt-get install man`
 
-###Installing all remaining essential packages
+### Installing all remaining essential packages
 We've installed most of the packages, all that is left to do is install the rest of the packages marked with the priority `essential` by the Debian maintainers. Some of these are absolutely essential to system management, and some will barely be used at all. 
 
 To comply with the Debian standard, we must install all of these:
@@ -493,11 +493,11 @@ Here follows is a short description of each package installed:
 | **tar**: | Provides the tar program, used for storing and retrieving files from a taped archive.  |
 | **util-linux**: | Provides many vital system utilities. |
 
-###Installing the kernel
+### Installing the kernel
 
 You have two options here: either you can install the latest kernel image for your system architecture provided by the Debian project, or you can compile your own.
 
-####Installing Debian's kernel
+#### Installing Debian's kernel
 
 If you want to install Debian's standard kernel, you will want to search for the available images provided for your architecture, and then install the approriate image.
 
@@ -506,7 +506,7 @@ apt-cache search linux-image
 apt-get install (selected image)
 ```
 
-####Compiling and installing your own custom kernel
+#### Compiling and installing your own custom kernel
 
 You can also compile your own custom kernel if you feel like it. 
 
@@ -553,7 +553,7 @@ cp -v System.map /boot/System.map-4.4.2
 cp -v .config /boot/config-(identifier)
 ```
 
-###Adding modular functionality to the system
+### Adding modular functionality to the system
 
 Regardless of if you installed the standard Debian GNU/Linux kernel, or compiled your own, you are going to need to provide your system with the binaries needed to load, remove and manipulate kernel modules. 
 
@@ -561,17 +561,17 @@ Regardless of if you installed the standard Debian GNU/Linux kernel, or compiled
 
 The only exception to this case would be if you compiled your own monolithic kernel with no modules, and do not intend on adding any beyond the ones you've already compiled into the kernel (which would generally be the case if you're doing embedded development).
 
-###Making the system bootable
+### Making the system bootable
 
 
-####Reconfiguring a drive with a pre-installed GRUB2 bootloader
+#### Reconfiguring a drive with a pre-installed GRUB2 bootloader
 If this Debian Linux system is on a partition of an already bootable drive, all one needs to do to make this system bootable is to replace the configuration file of the drive's bootloader to include this system's corresponding partition in its list of bootable partitions.
 
 If using GRUB2, then using the `grub2-mkconfig` utility makes it very simple to do so. Merely point it to the location of the already existing grub.cfg file:
 
 `grub2-mkconfig -o /boot/(path to grub.cfg)`
 
-####Installing GRUB2 onto a drive with no pre-installed bootloader
+#### Installing GRUB2 onto a drive with no pre-installed bootloader
 In the event that the partition is on a drive that does not yet have its own bootloader, you must install it and configure it yourself. To install GRUB2, you must first exit your chroot.
 
 ```
@@ -600,7 +600,7 @@ Then, edit this file to replace the (kernel-location) string in the file with th
 
 Afterwards, use the previously aforementioned `chroot` command provided in the 'Entering our chroot' section to return to the chroot.
 
-###Creating /etc/fstab
+### Creating /etc/fstab
 
 Before you boot into your system, it is absolutely -vital- for you to create and configure your /etc/fstab file. 
 
@@ -624,7 +624,7 @@ EOF
 
 Modify the first entry with the partition location of this system, and the type of filesystem. The second entry should contain the location of your swap partition. If you don't intend on using one, remove the line.
 
-###The End
+### The End
 
 Congratulations! You've finished building your own custom Debian-powered system, and now have the complete range of functionality expected of a Debian system.
 
