@@ -628,7 +628,7 @@ Modify the first entry with the partition location of this system, and the type 
 
 Congratulations! You've finished building your own custom Debian-powered system, and now have the complete range of functionality expected of a Debian system.
 
-###Comments, suggestions, bugs
+### Comments, suggestions, bugs
 
 If you found this guide useful, or have suggestions, the author would love to hear from you. Email him at 
 
