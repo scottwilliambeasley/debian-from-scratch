@@ -36,7 +36,7 @@ We then do some dependency hacking to satisfy all remaining dependencies needed 
 
 We then use apt to install all base packages functionalities needed for the system to operate properly, in the correct order, to prevent problems and broken packages.
 
-##Obtaining all needed packages
+## Obtaining all needed packages
 
 Let's start off by using our host system to download the packages we need, and place them somewhere inside our $LFS partition.
 
