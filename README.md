@@ -4,7 +4,7 @@ An instruction manual for teaching Linux From Scratch users how to make a custom
 
 ## Why Debian from Scratch?
 
-The original Linux from Scratch manual is purposefully vague as to what technique one should use to manage software dependencies. The suggestions that it gives, while no doubt being interesting exercises in package management, are not necessarily heavy-duty answers to a system administrator who intends on managing his time efficiently. 
+The original [Linux from Scratch](https://en.wikipedia.org/wiki/Linux_From_Scratch) manual is purposefully vague as to what technique one should use to manage software dependencies. The suggestions that it gives, while no doubt being interesting exercises in package management, are not necessarily heavy-duty answers to a system administrator who intends on managing his time efficiently. 
 
 The disadvantage of compiling everything to create a fully-fledged system is time. After one builds an LFS system for the first time, he/she is apt to realize that managing dependencies can be an arduous task, to say the least. Going through the insufferable exercise of hunting down dozens to possibly hundreds packages, mapping dependencies, configuring and installing these dependencies in the correct order, just to install a single piece of software, is not a viable alternative to a system administrator who values his time.
 
@@ -20,7 +20,7 @@ This project intends to be a community resource to help those interested in crea
 
 ## How to use this manual? 
 
-This manual is designed to be used after completing all instructions up to the end of Chapter 5 of the Linux From Scratch book, version 7.9. One first follows the instructions of the original LFS book, and builds the temporary system that is created in LFS Chapter 5. One is required to have a fully-functional temporary system which the the outcome of Chapter 5. 
+This manual is designed to be used after completing all instructions up to the end of Chapter 5 of the [Linux From Scratch book, version 7.9](http://www.linuxfromscratch.org/lfs/view/7.9/). One first follows the instructions of the original LFS book, and builds the temporary system that is created in LFS Chapter 5. One is required to have a fully-functional temporary system which the the outcome of Chapter 5. 
 
 After completing the preliminary preparations, one then consults this manual and follows it step-by-step.
 
