@@ -1,6 +1,6 @@
 # debian-from-scratch
 
-An instruction manual for teaching Linux From Scratch users how to make a custom Debian-powered distro.
+An instruction manual for teaching Linux From Scratch users how to make a Debian system.
 
 ## Why Debian from Scratch?
 
@@ -626,7 +626,7 @@ Modify the first entry with the partition location of this system, and the type 
 
 ### The End
 
-Congratulations! You've finished building your own custom Debian-powered system, and now have the complete range of functionality expected of a Debian system.
+Congratulations! You've finished building your Debian system, and now have the complete range of functionality expected of a Debian system on top of your regular LFS install.
 
 ### Comments, suggestions, bugs
 
