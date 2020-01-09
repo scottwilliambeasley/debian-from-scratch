@@ -20,7 +20,7 @@ This project intends to be a community resource to help those interested in crea
 
 ## How to use this manual? 
 
-This manual is designed to be used after completing all instructions up to the end of Chapter 5 of the [Linux From Scratch book, version 7.9](http://www.linuxfromscratch.org/lfs/view/7.9/). One first follows the instructions of the original LFS book, and builds the temporary system that is created in LFS Chapter 5. One is required to have a fully-functional temporary system which the the outcome of Chapter 5. 
+This manual is designed to be used after completing all instructions up to the end of Chapter 5, and some parts of Chapter 6 of the [Linux From Scratch book, version 7.9](http://www.linuxfromscratch.org/lfs/view/7.9/). One first follows the instructions of the original LFS book, and builds the temporary system that is created in LFS Chapter 5. One is required to have a fully-functional temporary system which the the outcome of Chapter 5. 
 
 After completing the preliminary preparations, one then consults this manual and follows it step-by-step.
 
@@ -41,7 +41,8 @@ We then use apt to install all base packages functionalities needed for the syst
 Let's start off by using our host system to download the packages we need, and place them somewhere inside our $LFS partition.
 
 #### source files
-The only source file you will need to download is the source for dpkg:
+
+One of the requirments for DPKG is PKG-Config. This is built in Chapter 6.23 of Linux from Scratch. Be sure to downdown this source as contained in Linux from Scratch.
 
 [dpkg](http://http.debian.net/debian/pool/main/d/dpkg/dpkg_1.17.27.tar.xz)
 
@@ -136,6 +137,21 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin:/tools/sbin \
 /tools/bin/bash --login +h
 ```
 
+Once in chroot enter the following commands:
+
+
+```
+mkdir /bin
+ln /tools/bin/bash /bin/bash
+ln /tools/bin/bash /bin/sh
+```
+
+
+### Building PKG-Config
+
+ Build [PKG-Config](http://www.linuxfromscratch.org/lfs/view/7.9/chapter06/pkg-config.html) as show in 6.23 of Linux From Scratch then continue on. 
+
+
 ### Installing dpkg
 
 With our `/tools` environment completely set up, we are ready to directly compile and install `dpkg` into our target environment. Replace the `build` variable with the appropriate architecture if it isn't 64-bit (which I am assuming that it is):
@@ -159,11 +175,6 @@ We must mitigate this problem by making sure that the `/bin` directory already e
 
 When we get to the point of installing debian's "priority:essential" packages, which include both of these shells, these symlinks will be overwritten with native copies of these binaries.
 
-```
-mkdir /bin
-ln /tools/bin/bash /bin/bash
-ln /tools/bin/bash /bin/sh
-```
 
 
 ### Installing apt
