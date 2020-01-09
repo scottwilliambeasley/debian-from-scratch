@@ -42,7 +42,9 @@ Let's start off by using our host system to download the packages we need, and p
 
 #### source files
 
-One of the requirments for DPKG is PKG-Config. This is built in Chapter 6.23 of Linux from Scratch. Be sure to downdown this source as contained in Linux from Scratch (as listed in the wget-list).
+One of the requirments for DPKG is PKG-Config. This is built in Chapter 6.23 of Linux from Scratch. Be sure to downdown this source as listed in Linux from Scratch. 
+
+[pkg-config](http://pkgconfig.freedesktop.org/releases/pkg-config-0.29.tar.gz)
 
 [dpkg](http://http.debian.net/debian/pool/main/d/dpkg/dpkg_1.17.27.tar.xz)
 
