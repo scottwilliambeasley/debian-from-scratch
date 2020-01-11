@@ -217,6 +217,7 @@ Once the package is installed, tweak the database to convince it that it -was- f
 Now install the other two packages in order:
 
 `dpkg -i (location_of_multiarch)`
+
 `dpkg -i (location_of_libc6)`
 
 And reinstall libgcc1 to cover over our ugly little hack and complete the full installation of each package:
