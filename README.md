@@ -190,11 +190,27 @@ First, we need to install `gcc-4.9-base`:
 
 `dpkg -i (location of gcc-4.9-base)`
 
-Then, we will need to install one package first in a partial way
+Then, we will need to install one package first in a partial way:
 
 `dpkg - i (LOCATION_OF_libgcc1)`
 
-and tweak the database to convince it that it -was- fully installed:
+NOTE: You will receive an error here, containing errors very similar to the following:
+
+```
+Unpacking libc6:amd64 (2.28-10) over (2.28-10) ...
+dpkg: dependency problems prevent configuration of libc6:amd64:
+ libc6:amd64 depends on libgcc1; however:
+  Package libgcc1:amd64 is not configured yet.
+
+dpkg: error processing package libc6:amd64 (--install):
+ dependency problems - leaving unconfigured
+Errors were encountered while processing:
+ libc6:amd64
+```
+
+This is normal - at this point you cannot fully install any of these packages. You can only partially install them, which we will remedy later on.
+
+Once the package is installed, tweak the database to convince it that it -was- fully installed:
 
 `sed -ir 's/not-installed/installed/' /var/lib/dpkg/status`
 
