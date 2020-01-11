@@ -214,10 +214,6 @@ Once the package is installed, tweak the database to convince it that it -was- f
 
 `sed -ir 's/not-installed/installed/' /var/lib/dpkg/status`
 
-Furthermore, since the package's database entry wasn't updated with the description,maintainer, and version info, we need to append these to the package's database entries. This will prevent `dpkg` from moaning and groaning:
-
-`sed -ri 's/(Package: libgcc1)/\1\nDescription: test\nMaintainer: test\nVersion: 2.19/' /var/lib/dpkg/status`
-
 Now install the other two packages in order:
 
 `dpkg -i (location_of_multiarch)`
